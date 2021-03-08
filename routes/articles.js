@@ -12,6 +12,10 @@ router.get('/all', (req, res, next) => {
         delete noPassword.password;
         return noPassword;
       })));
+    })
+    .catch((err) => {
+      res.json([]);
+      console.error(err);
     });
 });
 
