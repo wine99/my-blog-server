@@ -1,6 +1,6 @@
 create table tb_users (
   id int auto_increment primary key,
-  user_name varchar(20) not null,
+  username varchar(20) not null,
   password varchar(20) not null
 );
 
@@ -15,10 +15,10 @@ create table tb_blogs (
 );
 
 insert into tb_users
-  (user_name, password)
+  (username, password)
   values ('YZJ', '123');
 insert into tb_users
-  (user_name, password)
+  (username, password)
   values ('Joey', '123');
 
 insert into tb_blogs
