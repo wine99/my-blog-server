@@ -4,7 +4,7 @@ const { exec, escape } = require('../db/mysql');
 function getAllArticles() {
   // TODO sql syntax error
   const sql = `
-  select * from tb_blogs, tb_users
+  select *, tb_blogs.id as id from tb_blogs, tb_users
     where tb_blogs.author_id=tb_users.id
       and tb_blogs.deleted=0
     order by tb_blogs.create_time desc`;
@@ -19,7 +19,11 @@ function addArticle(article) {
   // const sql = `
   // insert into tb_blogs
   //   (author_id, title, create_time, content)
-  //   values (${+(escaped.author_id)}, ${escaped.title}, ${escaped.create_time}, ${escaped.content});`;
+  //   values (${
+  //     +(escaped.author_id)},
+  //     ${escaped.title},
+  //     ${escaped.create_time},
+  //     ${escaped.content});`;
   const sql = `
   insert into tb_blogs
     (author_id, title, create_time, content)

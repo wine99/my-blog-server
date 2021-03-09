@@ -7,7 +7,6 @@ router.get('/all', (req, res) => {
   // res.render('index', { title: 'Express' });
   getAllArticles()
     .then((rows) => {
-      console.log(rows);
       res.json(rows.map(((article) => {
         const { ...noPassword } = article;
         delete noPassword.password;
