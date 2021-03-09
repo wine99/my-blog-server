@@ -3,7 +3,7 @@ const { checkLogin } = require('../controller/users');
 
 const router = express.Router();
 
-router.post('/login', (req, res, next) => {
+router.post('/login', (req, res) => {
   const {
     username,
     password,
