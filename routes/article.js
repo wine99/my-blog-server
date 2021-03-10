@@ -1,5 +1,9 @@
 const express = require('express');
-const { getAllArticles, addArticle } = require('../controller/articles');
+const {
+  getAllArticles,
+  getArticleById,
+  addArticle,
+} = require('../controller/article');
 
 const router = express.Router();
 
@@ -16,6 +20,24 @@ router.get('/all', (req, res) => {
     .catch((err) => {
       res.json([]);
       console.error(err);
+    });
+});
+
+router.get('/:id', (req, res) => {
+  getArticleById(req.params.id)
+    .then((rows) => {
+      if (!rows[0]) {
+        console.error(rows);
+        res.json(null);
+      } else {
+        const { ...noPassword } = rows[0];
+        delete noPassword.password;
+        res.json(noPassword);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json(null);
     });
 });
 

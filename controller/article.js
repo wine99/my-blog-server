@@ -2,10 +2,19 @@ const dayjs = require('dayjs');
 const { exec, escape } = require('../db/mysql');
 
 function getAllArticles() {
-  // TODO sql syntax error
   const sql = `
   select *, tb_blogs.id as id from tb_blogs, tb_users
     where tb_blogs.author_id=tb_users.id
+      and tb_blogs.deleted=0
+    order by tb_blogs.create_time desc`;
+  return exec(sql);
+}
+
+function getArticleById(id) {
+  const sql = `
+  select *, tb_blogs.id as id from tb_blogs, tb_users
+    where tb_blogs.id=${id}
+      and tb_blogs.author_id=tb_users.id
       and tb_blogs.deleted=0
     order by tb_blogs.create_time desc`;
   return exec(sql);
@@ -39,4 +48,5 @@ function addArticle(article) {
 module.exports = {
   getAllArticles,
   addArticle,
+  getArticleById,
 };
