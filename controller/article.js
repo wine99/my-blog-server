@@ -3,20 +3,20 @@ const { exec, escape } = require('../db/mysql');
 
 function getAllArticles() {
   const sql = `
-  select *, tb_blogs.id as id from tb_blogs, tb_users
-    where tb_blogs.author_id=tb_users.id
-      and tb_blogs.deleted=0
-    order by tb_blogs.create_time desc`;
+  select *, article.id as id from article, user
+    where article.author_id=user.id
+      and article.deleted=0
+    order by article.create_time desc`;
   return exec(sql);
 }
 
 function getArticleById(id) {
   const sql = `
-  select *, tb_blogs.id as id from tb_blogs, tb_users
-    where tb_blogs.id=${id}
-      and tb_blogs.author_id=tb_users.id
-      and tb_blogs.deleted=0
-    order by tb_blogs.create_time desc`;
+  select *, article.id as id from article, user
+    where article.id=${id}
+      and article.author_id=user.id
+      and article.deleted=0
+    order by article.create_time desc`;
   return exec(sql);
 }
 
@@ -26,7 +26,7 @@ function addArticle(article) {
   //   escaped[pair.key] = escape(pair.value);
   // });
   // const sql = `
-  // insert into tb_blogs
+  // insert into article
   //   (author_id, title, create_time, content)
   //   values (${
   //     +(escaped.author_id)},
@@ -34,7 +34,7 @@ function addArticle(article) {
   //     ${escaped.create_time},
   //     ${escaped.content});`;
   const sql = `
-  insert into tb_blogs
+  insert into article
     (author_id, title, create_time, content)
     values (
       ${+(article.author_id)},
