@@ -6,7 +6,7 @@ function getAllArticles() {
   select *, article.id as id from article, user
     where article.author_id=user.id
       and article.deleted=0
-    order by article.create_time desc`;
+    order by article.created_at desc`;
   return exec(sql);
 }
 
@@ -16,7 +16,7 @@ function getArticleById(id) {
     where article.id=${id}
       and article.author_id=user.id
       and article.deleted=0
-    order by article.create_time desc`;
+    order by article.created_at desc`;
   return exec(sql);
 }
 
@@ -27,19 +27,19 @@ function addArticle(article) {
   // });
   // const sql = `
   // insert into article
-  //   (author_id, title, create_time, content)
+  //   (author_id, title, created_at, content)
   //   values (${
   //     +(escaped.author_id)},
   //     ${escaped.title},
-  //     ${escaped.create_time},
+  //     ${escaped.created_at},
   //     ${escaped.content});`;
   const sql = `
   insert into article
-    (author_id, title, create_time, content)
+    (author_id, title, created_at, content)
     values (
       ${+(article.author_id)},
       ${escape(article.title)},
-      ${dayjs(article.create_time).format('YYYYMMDDHHmmss')},
+      ${dayjs(article.created_at).format('YYYYMMDDHHmmss')},
       ${escape(article.content)}
     );`;
   return exec(sql);
