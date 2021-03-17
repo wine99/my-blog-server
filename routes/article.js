@@ -3,6 +3,8 @@ const {
   getAllArticles,
   getArticleById,
   addArticle,
+  editArticle,
+  deleteArticle,
 } = require('../controller/article');
 
 const {
@@ -23,7 +25,7 @@ router.get('/all', (req, res) => {
           return noPassword;
         }))));
       } else {
-        res.json(new ErrorModel('当前暂无文章'));
+        res.json(new SuccessModel([], '当前暂无文章'));
       }
     })
     .catch((err) => {
@@ -64,6 +66,39 @@ router.post('/new', (req, res) => {
     })
     .catch((err) => {
       res.json(new ErrorModel('发布失败，未知错误'));
+      console.error(err);
+    });
+});
+
+router.put('/:id', (req, res) => {
+  editArticle(req.body)
+    .then((putResult) => {
+      if (putResult.changedRows === 1) {
+        res.json(new SuccessModel('发布成功'));
+      } else {
+        res.json(new ErrorModel('发布失败，未知错误'));
+        console.error(putResult);
+      }
+    })
+    .catch((err) => {
+      res.json(new ErrorModel('发布失败，未知错误'));
+      console.error(err);
+    });
+});
+
+router.delete('/:id', (req, res) => {
+  deleteArticle(req.params.id)
+    .then((deleteResult) => {
+      console.log(deleteResult);
+      if (deleteResult.changedRows === 1) {
+        res.json(new SuccessModel('删除成功'));
+      } else {
+        res.json(new ErrorModel('删除失败，未知错误'));
+        console.error(deleteResult);
+      }
+    })
+    .catch((err) => {
+      res.json(new ErrorModel('删除失败，未知错误'));
       console.error(err);
     });
 });
